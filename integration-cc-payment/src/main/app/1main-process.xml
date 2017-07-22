@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+
+    <flow name="ShippingAddressVerification">
+        <http:listener config-ref="CreditCard_HTTP_Listener" path="/cc/shippingverification" doc:name="HTTP" allowedMethods="POST"/>       
+        
+        <custom-interceptor class="com.cybersource.interceptor.Logger" />
+      <!--   <logger message="#[payload]" level="INFO" doc:name="Logger"/> -->
+        <flow-ref name="SAVerification" doc:name="SAVerification"/> 
+         <exception-strategy ref="Global_Exception_Strategy" doc:name="Reference Exception Strategy" />  
+    </flow>
+    
+    
+     <flow name="CreditCardAuthentication">
+        <http:listener config-ref="CreditCard_HTTP_Listener" path="/cc/authentication" doc:name="HTTP" allowedMethods="POST"/>
+       <custom-interceptor class="com.cybersource.interceptor.Logger" />
+       <!--  <logger message="#[payload]" level="INFO" doc:name="Logger"/> -->
+        <flow-ref name="CCAuthentication" doc:name="CCAuthentication"/>  
+         <exception-strategy ref="Global_Exception_Strategy" doc:name="Reference Exception Strategy" />   
+    </flow>
+
+    
+      <flow name="Auth_Reversal">
+        <http:listener config-ref="CreditCard_HTTP_Listener" path="/cc/auth_reversal" doc:name="HTTP" allowedMethods="POST"/>
+          <custom-interceptor class="com.cybersource.interceptor.Logger" />
+       <!--  <logger message="#[payload]" level="INFO" doc:name="Logger"/> -->
+        <flow-ref name="AuthReversal" doc:name="AuthReversal"/>   
+         <exception-strategy ref="Global_Exception_Strategy" doc:name="Reference Exception Strategy" />  
+    </flow>
+    
+    
+     <flow name="CC_Capture">
+        <http:listener config-ref="CreditCard_HTTP_Listener" path="/cc/capture" doc:name="HTTP" allowedMethods="POST"/>
+         <custom-interceptor class="com.cybersource.interceptor.Logger" />
+     <!--    <logger message="#[payload]" level="INFO" doc:name="Logger"/> -->
+        <flow-ref name="CCCapture" doc:name="CCCapture"/>   
+         <exception-strategy ref="Global_Exception_Strategy" doc:name="Reference Exception Strategy" />  
+    </flow>
+    
+    
+     <flow name="CC_FollowOn">
+        <http:listener config-ref="CreditCard_HTTP_Listener" path="/cc/followon" doc:name="HTTP" allowedMethods="POST"/>
+          <custom-interceptor class="com.cybersource.interceptor.Logger" />
+     <!--    <logger message="#[payload]" level="INFO" doc:name="Logger"/> -->
+        <flow-ref name="CCFollowOn" doc:name="CCFollowOn"/>     
+         <exception-strategy ref="Global_Exception_Strategy" doc:name="Reference Exception Strategy" />
+    </flow>
+
+    
+        
+
+</mule>

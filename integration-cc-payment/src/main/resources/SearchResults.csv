@@ -1,0 +1,15 @@
+CyberSource Merchant ID,Client User,Date and Time,Request ID,Merchant Reference Number,Last Name,First Name,Email Address,Amount,Currency,Account Suffix,Applications,Card Expiration Month,Card Expiration Year,Account Type,Check Routing Number,Transaction Reference Number
+nivikundem2211,,Jul 22 2017 07:10:23 AM,5.00707E+21,1500707436,,,,100,GBP,1111,Credit Card Full Authorization Reversal(Accept),,,Visa,,XFZ3G53LZBLI
+nivikundem2211,,Jul 22 2017 07:10:18 AM,5.00707E+21,1500707436,RODRIGUEZ,NIVI,nivirodriguez@gmail.com,100,GBP,1111,Credit Card Authorization(Accept),11,2020,Visa,,1040031567
+nivikundem2211,,Jul 22 2017 07:09:34 AM,5.00707E+21,1500707388,,,,100,GBP,1111,Credit Card Settlement(Accept),11,2020,Visa,,1500707388
+nivikundem2211,,Jul 22 2017 07:09:30 AM,5.00707E+21,1500707388,RODRIGUEZ,NIVI,nivirodriguez@gmail.com,100,GBP,1111,Credit Card Authorization(Accept),11,2020,Visa,,1080031295
+nivikundem2211,,Jul 22 2017 07:08:46 AM,5.00707E+21,1500707334,,,,100,GBP,1111,Credit Card Settlement(Accept),11,2020,Visa,,1500707334
+nivikundem2211,,Jul 22 2017 07:08:36 AM,5.00707E+21,1500707334,RODRIGUEZ,NIVI,nivirodriguez@gmail.com,100,GBP,1111,Credit Card Authorization(Accept),11,2020,Visa,,1080031294
+nivikundem2211,,Jul 22 2017 07:01:00 AM,5.00707E+21,1500706855,,,,94,GBP,1111,Credit Card Credit(Accept),11,2020,Visa,,1500706855
+nivikundem2211,,Jul 22 2017 07:00:47 AM,5.00707E+21,1500706855,,,,100,GBP,1111,Credit Card Settlement(Accept),11,2020,Visa,,1500706855
+nivikundem2211,,Jul 22 2017 07:00:36 AM,5.00707E+21,1500706855,RODRIGUEZ,NIVI,nivirodriguez@gmail.com,100,GBP,1111,Credit Card Authorization(Accept),11,2020,Visa,,1030031248
+nivikundem2211,,Jul 22 2017 06:59:26 AM,5.00707E+21,1500706361,RODRIGUEZ,NIVI,nivirodriguez@gmail.com,1500,GBP,1111,Credit Card Authorization(Accept),11,2020,Visa,,1070031025
+nivikundem2211,,Jul 22 2017 06:58:49 AM,5.00707E+21,1500706361,RODRIGUEZ,NIVI,nivirodriguez@gmail.com,100,GBP,1111,Credit Card Authorization(Accept),11,2020,Visa,,1050031084
+nivikundem2211,,Jul 22 2017 06:55:11 AM,5.00707E+21,1500706361,RODRIGUEZ,NIVI,nivirodriguez@gmail.com,2000,GBP,1111,"Credit Card Authorization(Accept),Credit Card Settlement(Accept)",11,2020,Visa,,1500706361
+nivikundem2211,,Jul 22 2017 06:52:26 AM,5.00706E+21,1500706361,RODRIGUEZ,NIVI,nivirodriguez@gmail.com,100,GBP,1111,Credit Card Authorization(Accept),11,2020,Visa,,1020031628
+nivikundem2211,,Jul 22 2017 06:48:43 AM,5.00706E+21,1500500376,,,,,,,Shipping Address Verification(Accept),,,,,

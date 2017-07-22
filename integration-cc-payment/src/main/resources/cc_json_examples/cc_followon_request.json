@@ -1,0 +1,15 @@
+{
+  "merchant_details": {    
+      "merchant_id": "{{merchant_id}}",
+    "merchantReferenceCode":"{{merchantReferenceCode}}" 
+  },
+ 
+   "purchase_totals": {
+      "currency": "GBP",
+       "grandTotalAmount":"94.00"
+      },
+    "ccCreditService": {
+      "captureRequestID": "{{requestID}}"
+      }
+  
+}

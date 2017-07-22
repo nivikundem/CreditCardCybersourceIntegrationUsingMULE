@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+
+        <RollingFile name="MAIN_LOG" fileName="C:/Work/logs/IntegrationCCPayment.log" 
+            filePattern="C:/Work/logs/IntegrationCCPayment.log.%d{yyyy-MM-dd}.%i" ignoreExceptions="false">
+            <PatternLayout>
+                <Pattern>%-5p %d [%t] %c: %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20 MB" />
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="50"/>
+        </RollingFile>
+
+        <RollingFile name="AUDIT_LOG" fileName="C:/Work/logs/IntegrationCCPayment.audit.log" 
+            filePattern="C:/Work/logs/IntegrationCCPayment.audit.log.%d{yyyy-MM-dd}.%i" ignoreExceptions="false">
+            <PatternLayout>
+                <Pattern>%-5p %d [%t] %c: %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20 MB" />
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="50"/>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>   
+        <!-- CXF is used heavily by Mule for web services -->
+        <AsyncLogger name="org.apache.cxf" level="WARN"/>
+
+        <!-- Apache Commons tend to make a lot of noise which can clutter the log-->
+        <AsyncLogger name="org.apache" level="WARN"/>
+
+        <!-- Reduce startup noise -->
+        <AsyncLogger name="org.springframework.beans.factory" level="WARN"/>
+
+        <!-- Mule classes -->
+        <AsyncLogger name="org.mule" level="INFO"/>
+        <AsyncLogger name="com.mulesoft" level="INFO"/>
+
+		<!-- Reduce Dataweave noise -->
+		<AsyncLogger name="com.mulesoft.weave.mule.utils" level="ERROR"/>
+
+        <!-- Reduce DM verbosity -->
+        <AsyncLogger name="org.jetel" level="WARN"/>
+        <AsyncLogger name="Tracking" level="WARN"/>
+        
+        <AsyncRoot level="INFO">
+            <AppenderRef ref="MAIN_LOG" level="ERROR"/>
+            <AppenderRef ref="AUDIT_LOG" level="INFO"/>
+        </AsyncRoot>
+    </Loggers>
+
+</Configuration>

@@ -1,0 +1,73 @@
+{
+	"owner": "2109488",
+	"lastUpdatedBy": "2109488",
+	"lastRevision": 1848086287,
+	"team": null,
+	"id": "e98edcdf-fae7-5e7a-4163-c1e5fa491bd0",
+	"name": "CCPaymentStore",
+	"description": "",
+	"order": [
+		"0481de65-174f-7d83-4532-ba63892e494f",
+		"46b9b59d-56bf-79c1-dbe9-e74e7833292f"
+	],
+	"requests": [
+		{
+			"folder": null,
+			"id": "0481de65-174f-7d83-4532-ba63892e494f",
+			"name": "CCAuthentication",
+			"dataMode": "raw",
+			"data": [],
+			"descriptionFormat": null,
+			"description": "",
+			"headers": "Content-Type: application/json\n",
+			"method": "POST",
+			"pathVariables": {},
+			"url": "http://{{host}}:{{port}}/esb/v1-{{env}}/{{basePath}}/cc/authentication",
+			"preRequestScript": null,
+			"tests": "\ntests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar xmlTree = xml2Json(responseBody);\nconsole.log(xmlTree)\npostman.setEnvironmentVariable(\"requestID\", xmlTree[\"c:replyMessage\"][\"c:requestID\"]);\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"pathVariableData": [],
+			"collectionId": "e98edcdf-fae7-5e7a-4163-c1e5fa491bd0",
+			"rawModeData": "{\r\n  \"merchant_details\": {    \r\n       \"merchant_id\": \"{{merchant_id}}\",\r\n       \"merchantReferenceCode\":\"{{merchantReferenceCode}}\" \r\n  },\r\n   \"bill_to\": {   \r\n      \"first_name\": \"Nivi\",\r\n      \"last_name\": \"Rodriguez\",\r\n      \"street1\": \"3 Edgar Buildings\",\r\n      \"city\":\"Bath\",\r\n      \"state\":\"Somerset\",\r\n      \"postalCode\":\"BA1 2FJ\",\r\n      \"country\":\"UK\",\r\n      \"email\":\"NiviRodriguez@gmail.com\"     \r\n  },  \r\n  \r\n  \"items\": {\r\n    \"item\": {\r\n      \"unit_price\": \"10.00\",\r\n      \"quantity\": \"10\"\r\n      }\r\n  },\r\n \r\n  \"card\": {\r\n      \"account_number\": \"4111111111111111\",\r\n    \"expiration_month\":\"11\",\r\n    \"expiration_year\":\"2020\"\r\n  },\r\n  \r\n   \"purchase_totals\": {\r\n      \"currency\": \"GBP\"\r\n      },\r\n      \r\n       \"ccAuthService\":true\r\n  \r\n}"
+		},
+		{
+			"folder": null,
+			"id": "46b9b59d-56bf-79c1-dbe9-e74e7833292f",
+			"name": "CCResponse",
+			"dataMode": "raw",
+			"data": [],
+			"descriptionFormat": null,
+			"description": "",
+			"headers": "Content-Type: application/xml\n",
+			"method": "POST",
+			"pathVariables": {},
+			"url": "http://{{host}}:{{port}}/esb/v1-{{env}}/{{basePath}}/cc/response",
+			"preRequestScript": null,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/xml",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"pathVariableData": [],
+			"collectionId": "e98edcdf-fae7-5e7a-4163-c1e5fa491bd0",
+			"rawModeData": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<c:replyMessage xmlns:c=\"urn:schemas-cybersource-com:transaction-data-1.139\">\n    <c:merchantReferenceCode>MRC-123</c:merchantReferenceCode>\n    <c:requestID>4994384191166710604011</c:requestID>\n    <c:decision>ACCEPT</c:decision>\n    <c:reasonCode>100</c:reasonCode>\n    <c:requestToken>Ahj77wSTDr8BCHwOaODrEkuST1uIQBS5JPW4hM6E/RwUhk0ky9GK5Gk6BOTDr8BCHwOaODrAJwxy</c:requestToken>\n    <c:purchaseTotals>\n        <c:currency>GBP</c:currency>\n    </c:purchaseTotals>\n    <c:ccAuthReply>\n        <c:reasonCode>100</c:reasonCode>\n        <c:amount>5.00</c:amount>\n        <c:authorizationCode>5</c:authorizationCode>\n        <c:avsCode>1</c:avsCode>\n        <c:authorizedDateTime>2017-07-07T14:40:19Z</c:authorizedDateTime>\n        <c:processorResponse>0</c:processorResponse>\n    </c:ccAuthReply>\n</c:replyMessage>"
+		}
+	]
+}

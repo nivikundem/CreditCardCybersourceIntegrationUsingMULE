@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+   
+    <flow name="ResponseProcessFlow">
+        <http:listener config-ref="PaymentService_HTTP_Listener" path="/cc/response" allowedMethods="POST" doc:name="HTTP"/>
+          <dw:transform-message doc:name="originalPayload var">                     
+                 
+    <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload]]></dw:set-payload>
+
+				            <dw:set-variable variableName="originalPayload"><![CDATA[%dw 1.0
+%output application/java
+---
+payload]]></dw:set-variable>
+				        </dw:transform-message>
+				        
+				        
+		<logger message="#[payload.replyMessage.merchantReferenceCode]" level="INFO" doc:name="Logger"/>		        
+        <logger message="#[payload.replyMessage.requestID]" level="INFO" doc:name="Logger"/>
+        <logger message="#[payload.replyMessage.decision]" level="INFO" doc:name="Logger"/>
+        <logger message="#[payload.replyMessage.reasonCode]" level="INFO" doc:name="Logger"/>
+        <logger message="#[payload.replyMessage.requestToken]" level="INFO" doc:name="Logger"/>
+        
+        <set-variable variableName="requestID" value="#[payload.replyMessage.requestID]" doc:name="requestIDVar"/>
+        <set-variable variableName="decision" value="#[payload.replyMessage.decision]" doc:name="decisionVar"/>
+        <set-variable variableName="reasonCode" value="#[payload.replyMessage.reasonCode]" doc:name="reasonCodeVar"/>
+        <set-variable variableName="requestToken" value="#[payload.replyMessage.requestToken]" doc:name="requestTokenVar"/>
+        <set-variable variableName="merchantID" value="#[message.inboundProperties.'http.query.params'.merchantID]" doc:name="merchantIDVar"/>
+        <logger message="#[flowVars.merchantID]" level="INFO" doc:name="Logger"/>
+        <set-variable variableName="merchantReferenceCode" value="#[payload.replyMessage.merchantReferenceCode]" doc:name="merchantReferenceCodeVar"/>
+        <logger message="#[flowVars.merchantReferenceCode]" level="INFO" doc:name="Logger"/>
+      		        
+        <flow-ref name="CheckMerchantDetails" doc:name="CheckMerchantDetails"/>
+        <logger message="#[flowVars.isMerchantDetailsExist]" level="INFO" doc:name="Logger"/>
+      
+      
+       <choice doc:name="is there a record?">
+            <when expression="#[flowVars.isMerchantDetailsExist &gt; 0]">
+              <db:update config-ref="serviceDB" doc:name="Update ccpayments">
+                    <db:parameterized-query><![CDATA[update cc.ccpayments
+		set requestID=#[flowVars.requestID]
+		, decision = #[flowVars.decision]
+		, reasonCode = #[flowVars.reasonCode]
+		, requestToken = #[flowVars.requestToken]
+        , status='COMPLTED'
+		,DateUpdated=CURRENT_TIMESTAMP
+		where merchantReferenceCode=#[flowVars.merchantReferenceCode]
+		and merchantID = #[flowVars.merchantID]]]></db:parameterized-query>
+		</db:update>
+              
+              
+            </when>
+            <otherwise>
+                <dw:transform-message doc:name="NOT EXIST">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	"result": "DOES NOT EXIST"
+}]]></dw:set-payload>
+                </dw:transform-message>
+            </otherwise>
+        </choice>
+       
+      
+       
+       
+       
+      
+      
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+        
+        
+        <exception-strategy ref="Global_Exception_Strategy" doc:name="Reference Exception Strategy"/> 
+        
+        
+        
+    </flow>
+    
+        
+    
+</mule>

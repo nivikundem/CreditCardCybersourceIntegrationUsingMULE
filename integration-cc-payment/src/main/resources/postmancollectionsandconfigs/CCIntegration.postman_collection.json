@@ -1,0 +1,284 @@
+{
+	"id": "be1c1672-6d07-c4f6-c8bc-2617cede604b",
+	"name": "CCIntegration",
+	"description": "",
+	"order": [
+		"b858c578-292b-d2ff-63d2-97e8573b57ee",
+		"a2be0ee4-c492-7123-7ff5-f0fdaced48ce",
+		"531aa9cb-7252-dfa8-3f4e-a73d1af2742a",
+		"93a2c61f-e629-8624-407c-0ea04b608db8",
+		"b6072b18-ad84-dcca-2338-efe3ba9892ff",
+		"dd48fe52-9a55-dc2c-29af-bea9c4ae428a",
+		"e817bd44-ae45-1ae5-913f-825d1fbea5b5",
+		"a6cd34d3-2ea0-b92e-25d1-8a3047c5f6f2",
+		"82a4df1a-0d26-bd00-f06d-6365016ead50"
+	],
+	"folders": [],
+	"timestamp": 1500020150437,
+	"owner": "2128089",
+	"public": false,
+	"hasRequests": true,
+	"requests": [
+		{
+			"id": "531aa9cb-7252-dfa8-3f4e-a73d1af2742a",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{host}}:{{port}}/esb/v1-{{env}}/{{basePath}}/cc/authentication",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500025327414,
+			"name": "CCAuthenticationAndSettlement",
+			"description": "",
+			"collectionId": "be1c1672-6d07-c4f6-c8bc-2617cede604b",
+			"responses": [],
+			"rawModeData": "{\r\n  \"merchant_details\": {    \r\n     \"merchant_id\": \"{{merchant_id}}\",\r\n    \"merchantReferenceCode\":\"{{merchantReferenceCode}}\" \r\n  },\r\n   \"bill_to\": {   \r\n      \"first_name\": \"Nivi\",\r\n      \"last_name\": \"Rodriguez\",\r\n      \"street1\": \"3 Edgar Buildings\",\r\n      \"city\":\"Bath\",\r\n      \"state\":\"Somerset\",\r\n      \"postalCode\":\"BA1 2FJ\",\r\n      \"country\":\"UK\",\r\n      \"email\":\"NiviRodriguez@gmail.com\"    \r\n  },  \r\n  \r\n  \"items\": {\r\n    \"item\": {\r\n      \"unit_price\": \"20.00\",\r\n      \"quantity\": \"100\"\r\n      }\r\n  },\r\n \r\n  \r\n  \"card\": {\r\n  \r\n      \"account_number\": \"4111111111111111\",\r\n    \"expiration_month\":\"11\",\r\n    \"expiration_year\":\"2020\"\r\n    \r\n  },\r\n   \"purchase_totals\": {\r\n      \"currency\": \"GBP\"\r\n      }\r\n      ,\r\n    \r\n   \"ccAuthService\":true,\r\n   \"ccCaptureService\":true\r\n  \r\n}"
+		},
+		{
+			"id": "82a4df1a-0d26-bd00-f06d-6365016ead50",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{host}}:{{port}}/esb/v1-{{env}}/{{basePath}}/cc/capture",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500025186523,
+			"name": "CCSettlement",
+			"description": "",
+			"collectionId": "be1c1672-6d07-c4f6-c8bc-2617cede604b",
+			"responses": [],
+			"rawModeData": "{\r\n  \"merchant_details\": {    \r\n      \"merchant_id\": \"{{merchant_id}}\",\r\n    \"merchantReferenceCode\":\"{{merchantReferenceCode}}\" \r\n  },\r\n  \r\n  \r\n   \"invoiceHeader\": {\r\n      \"userPO\": \"1111\"\r\n    \r\n      },\r\n  \r\n  \"items\": {\r\n    \"item\": {\r\n      \"unit_price\": \"10.00\",\r\n      \"quantity\": \"10\"\r\n      }\r\n  },\r\n \r\n   \"purchase_totals\": {\r\n      \"currency\": \"GBP\"\r\n      },\r\n    \"ccCaptureService\": {\r\n      \"authRequestID\": \"{{requestID}}\"\r\n      }\r\n  \r\n}"
+		},
+		{
+			"id": "93a2c61f-e629-8624-407c-0ea04b608db8",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{host}}:{{port}}/esb/v1-{{env}}/{{basePath}}/cc/auth_reversal",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500026103763,
+			"name": "Auth_Reversal",
+			"description": "",
+			"collectionId": "be1c1672-6d07-c4f6-c8bc-2617cede604b",
+			"responses": [],
+			"rawModeData": "{\r\n  \"merchant_details\": {    \r\n       \"merchant_id\": \"{{merchant_id}}\",\r\n    \"merchantReferenceCode\":\"{{merchantReferenceCode}}\"\r\n  },\r\n  \r\n  \"items\": {\r\n    \"item\": {\r\n      \"unit_price\": \"10.00\",\r\n      \"quantity\": \"10\"\r\n      }\r\n  },\r\n \r\n   \"purchase_totals\": {\r\n      \"currency\": \"GBP\"\r\n      },\r\n    \"ccAuthReversalService\": {\r\n      \"authRequestID\": \"{{requestID}}\"\r\n      }\r\n  \r\n}"
+		},
+		{
+			"id": "a2be0ee4-c492-7123-7ff5-f0fdaced48ce",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{host}}:{{port}}/esb/v1-{{env}}/{{basePath}}/cc/shippingverification",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500500116897,
+			"name": "ShippingAddressVerification",
+			"description": "",
+			"collectionId": "be1c1672-6d07-c4f6-c8bc-2617cede604b",
+			"responses": [],
+			"rawModeData": "{\r\n  \"merchant_details\": {    \r\n       \"merchant_id\": \"{{merchant_id}}\",\r\n       \"merchantReferenceCode\":\"{{merchantReferenceCode}}\" \r\n  },\r\n   \"bill_to\": {   \r\n      \"first_name\": \"Nivi\",\r\n      \"last_name\": \"Rodriguez\",\r\n      \"street1\": \"3 Edgar Buildings\",\r\n      \"city\":\"Bath\",\r\n      \"state\":\"Somerset\",\r\n      \"postalCode\":\"BA1 2FJ\",\r\n      \"country\":\"UK\",\r\n      \"email\":\"NiviRodriguez@gmail.com\"   \r\n  },  \r\n  \r\n  \"items\": [\r\n    {\r\n      \"unit_price\": \"10.00\",\r\n      \"quantity\": \"2\"\r\n    },\r\n    {\r\n      \"unit_price\": \"11.00\",\r\n      \"quantity\": \"3\"     \r\n    }\r\n  ],\r\n  \"card\": {  \r\n    \"account_number\": \"4111111111111111\",\r\n    \"expiration_month\":\"11\",\r\n    \"expiration_year\":\"2020\"\r\n    \r\n  },\r\n   \"purchase_totals\": {\r\n      \"currency\": \"GBP\"\r\n      }\r\n  \r\n}"
+		},
+		{
+			"id": "a6cd34d3-2ea0-b92e-25d1-8a3047c5f6f2",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{host}}:{{port}}/esb/v1-{{env}}/{{basePath}}/cc/authentication",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500025743349,
+			"name": "FullyApprovedRequest",
+			"description": "",
+			"collectionId": "be1c1672-6d07-c4f6-c8bc-2617cede604b",
+			"responses": [],
+			"rawModeData": "{\r\n  \"merchant_details\": {    \r\n     \"merchant_id\": \"{{merchant_id}}\",\r\n   \"merchantReferenceCode\":\"{{merchantReferenceCode}}\" \r\n  },\r\n   \"bill_to\": {   \r\n      \"first_name\": \"Nivi\",\r\n      \"last_name\": \"Rodriguez\",\r\n      \"street1\": \"3 Edgar Buildings\",\r\n      \"city\":\"Bath\",\r\n      \"state\":\"Somerset\",\r\n      \"postalCode\":\"BA1 2FJ\",\r\n      \"country\":\"UK\",\r\n      \"email\":\"NiviRodriguez@gmail.com\"    \r\n  },  \r\n  \r\n \r\n \r\n  \"card\": {\r\n      \"account_number\": \"4111111111111111\",\r\n    \"expiration_month\":\"11\",\r\n    \"expiration_year\":\"2020\"\r\n  },\r\n  \r\n   \"purchase_totals\": {\r\n      \"currency\": \"GBP\",\r\n      \"grandTotalAmount\":\"1500.00\"\r\n      },\r\n      \r\n       \"ccAuthService\":true\r\n  \r\n}"
+		},
+		{
+			"id": "b6072b18-ad84-dcca-2338-efe3ba9892ff",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{host}}:{{port}}/esb/v1-{{env}}/{{basePath}}/cc/capture",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500025812064,
+			"name": "CCCapture",
+			"description": "",
+			"collectionId": "be1c1672-6d07-c4f6-c8bc-2617cede604b",
+			"responses": [],
+			"rawModeData": "{\r\n  \"merchant_details\": {    \r\n       \"merchant_id\": \"{{merchant_id}}\",\r\n    \"merchantReferenceCode\":\"{{merchantReferenceCode}}\" \r\n  },\r\n  \r\n  \"items\": {\r\n    \"item\": {\r\n      \"unit_price\": \"10.00\",\r\n      \"quantity\": \"10\"\r\n      }\r\n  },\r\n \r\n   \"purchase_totals\": {\r\n      \"currency\": \"GBP\"\r\n      },\r\n    \"ccCaptureService\": {\r\n      \"authRequestID\": \"{{requestID}}\"\r\n      }\r\n  \r\n}"
+		},
+		{
+			"id": "b858c578-292b-d2ff-63d2-97e8573b57ee",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{host}}:{{port}}/esb/v1-{{env}}/{{basePath}}/cc/authentication",
+			"queryParams": [],
+			"preRequestScript": "postman.setEnvironmentVariable(\"merchantReferenceCode\", parseInt((new Date()).getTime() / 1000));\n//console.log(\"merchantReferenceCode : \"+parseInt((new Date()).getTime() / 1000));\nconsole.log(\"merchantReferenceCode : \"+postman.getEnvironmentVariable(\"merchantReferenceCode\"));",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "\ntests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar xmlTree = xml2Json(responseBody);\nconsole.log(xmlTree)\npostman.setEnvironmentVariable(\"requestID\", xmlTree[\"c:replyMessage\"][\"c:requestID\"]);\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500280377916,
+			"name": "CCAuthentication",
+			"description": "",
+			"collectionId": "be1c1672-6d07-c4f6-c8bc-2617cede604b",
+			"responses": [],
+			"rawModeData": "{\r\n  \"merchant_details\": {    \r\n       \"merchant_id\": \"{{merchant_id}}\",\r\n       \"merchantReferenceCode\":\"{{merchantReferenceCode}}\" \r\n  },\r\n   \"bill_to\": {   \r\n      \"first_name\": \"Nivi\",\r\n      \"last_name\": \"Rodriguez\",\r\n      \"street1\": \"3 Edgar Buildings\",\r\n      \"city\":\"Bath\",\r\n      \"state\":\"Somerset\",\r\n      \"postalCode\":\"BA1 2FJ\",\r\n      \"country\":\"UK\",\r\n      \"email\":\"NiviRodriguez@gmail.com\"     \r\n  },  \r\n  \r\n  \"items\": {\r\n    \"item\": {\r\n      \"unit_price\": \"10.00\",\r\n      \"quantity\": \"10\"\r\n      }\r\n  },\r\n \r\n  \"card\": {\r\n      \"account_number\": \"4111111111111111\",\r\n    \"expiration_month\":\"11\",\r\n    \"expiration_year\":\"2020\"\r\n  },\r\n  \r\n   \"purchase_totals\": {\r\n      \"currency\": \"GBP\"\r\n      },\r\n      \r\n       \"ccAuthService\":true\r\n  \r\n}"
+		},
+		{
+			"id": "dd48fe52-9a55-dc2c-29af-bea9c4ae428a",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{host}}:{{port}}/esb/v1-{{env}}/{{basePath}}/cc/followon",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500025963946,
+			"name": "CCFollowOn",
+			"description": "",
+			"collectionId": "be1c1672-6d07-c4f6-c8bc-2617cede604b",
+			"responses": [],
+			"rawModeData": "{\r\n  \"merchant_details\": {    \r\n      \"merchant_id\": \"{{merchant_id}}\",\r\n    \"merchantReferenceCode\":\"{{merchantReferenceCode}}\" \r\n  },\r\n \r\n   \"purchase_totals\": {\r\n      \"currency\": \"GBP\",\r\n       \"grandTotalAmount\":\"94.00\"\r\n      },\r\n    \"ccCreditService\": {\r\n      \"captureRequestID\": \"{{requestID}}\"\r\n      }\r\n  \r\n}"
+		},
+		{
+			"id": "e817bd44-ae45-1ae5-913f-825d1fbea5b5",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{host}}:{{port}}/esb/v1-{{env}}/{{basePath}}/cc/authentication",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500025623331,
+			"name": "InstallmentRequestWithVisa",
+			"description": "",
+			"collectionId": "be1c1672-6d07-c4f6-c8bc-2617cede604b",
+			"responses": [],
+			"rawModeData": "{\r\n  \"merchant_details\": {    \r\n     \"merchant_id\": \"{{merchant_id}}\",\r\n   \"merchantReferenceCode\":\"{{merchantReferenceCode}}\" \r\n  },\r\n   \"bill_to\": {   \r\n     \"first_name\": \"Nivi\",\r\n      \"last_name\": \"Rodriguez\",\r\n      \"street1\": \"3 Edgar Buildings\",\r\n      \"city\":\"Bath\",\r\n      \"state\":\"Somerset\",\r\n      \"postalCode\":\"BA1 2FJ\",\r\n      \"country\":\"UK\",\r\n      \"email\":\"NiviRodriguez@gmail.com\"     \r\n  },  \r\n  \r\n  \"items\": {\r\n    \"item\": {\r\n      \"unit_price\": \"10.00\",\r\n      \"quantity\": \"10\"\r\n      }\r\n  },\r\n \r\n  \"card\": {\r\n      \"account_number\": \"4111111111111111\",\r\n    \"expiration_month\":\"11\",\r\n    \"expiration_year\":\"2020\"\r\n  },\r\n  \r\n   \"purchase_totals\": {\r\n      \"currency\": \"GBP\"\r\n      },\r\n      \r\n   \"installment\": {\r\n      \"totalCount\": \"4\",\r\n      \"planType\":\"1\"\r\n      \r\n      },\r\n      \r\n       \"ccAuthService\":true\r\n  \r\n}"
+		}
+	]
+}

@@ -1,0 +1,40 @@
+{
+  "merchant_details": {    
+     "merchant_id": "{{merchant_id}}",
+    "merchantReferenceCode":"{{merchantReferenceCode}}" 
+  },
+   "bill_to": {   
+      "first_name": "Nivi",
+      "last_name": "Rodriguez",
+      "street1": "3 Edgar Buildings",
+      "city":"Bath",
+      "state":"Somerset",
+      "postalCode":"BA1 2FJ",
+      "country":"UK",
+      "email":"NiviRodriguez@gmail.com"    
+  },  
+  
+  "items": {
+    "item": {
+      "unit_price": "20.00",
+      "quantity": "100"
+      }
+  },
+ 
+  
+  "card": {
+  
+      "account_number": "4111111111111111",
+    "expiration_month":"11",
+    "expiration_year":"2020"
+    
+  },
+   "purchase_totals": {
+      "currency": "GBP"
+      }
+      ,
+    
+   "ccAuthService":true,
+   "ccCaptureService":true
+  
+}

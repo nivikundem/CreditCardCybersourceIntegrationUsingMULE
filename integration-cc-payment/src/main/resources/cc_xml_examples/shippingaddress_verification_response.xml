@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c:replyMessage xmlns:c="urn:schemas-cybersource-com:transaction-data-1.139">
+    <c:merchantReferenceCode>1500500376</c:merchantReferenceCode>
+    <c:requestID>5007061231356420704009</c:requestID>
+    <c:decision>ACCEPT</c:decision>
+    <c:reasonCode>100</c:reasonCode>
+    <c:requestToken>AhijLwSTD27u7V8NbkcJEkuHKQBo8A4RQyaSZejFcqAwAAAAkgMN</c:requestToken>
+    <c:davReply>
+        <c:reasonCode>100</c:reasonCode>
+        <c:addressType>F</c:addressType>
+        <c:countryInfo>0</c:countryInfo>
+        <c:matchScore>6</c:matchScore>
+        <c:standardizedAddress1>3 Edgar Buildings</c:standardizedAddress1>
+        <c:standardizedCity>Bath</c:standardizedCity>
+        <c:standardizedState>BAS</c:standardizedState>
+        <c:standardizedPostalCode>BA1 2FJ</c:standardizedPostalCode>
+        <c:standardizedCountry>United Kingdom</c:standardizedCountry>
+        <c:standardizedISOCountry>GB</c:standardizedISOCountry>
+        <c:intlInfo>S4080</c:intlInfo>
+    </c:davReply>
+</c:replyMessage>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata"
+	xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:ws="http://www.mulesoft.org/schema/mule/ws"
+	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/current/mule-ws.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd">
+   
+   
+    <sub-flow name="SAVerification">
+        <byte-array-to-object-transformer doc:name="Byte Array to Object"/>
+        <json:json-to-object-transformer returnClass="java.util.Map" mimeType="application/java" doc:name="JSON to Object"/>
+        <set-variable variableName="originalPayload" value="#[payload]" doc:name="originalPayload var"/>
+
+        <flow-ref name="SendShippingAddressVerificationRequest" doc:name="SendShippingAddressVerificationRequest"/>
+  
+        
+        <logger message="SendShippingAddressVerification response: [#[message.payloadAs(java.lang.String)]]]" level="INFO" doc:name="SendShippingAddressVerificationRequest response Logger"/>
+    </sub-flow>
+
+
+	
+	
+    <sub-flow name="SendShippingAddressVerificationRequest">
+        <dw:transform-message metadata:id="eb6b9178-e12f-4be1-91c2-3e3d064c4e42" doc:name="Request">
+            <dw:input-payload doc:sample="sample_data\RateRequest.xml"/>
+            <dw:input-variable doc:sample="sample_data\string_2.dwl" variableName="originalPayload"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace tns urn:schemas-cybersource-com:transaction-data-1.139
+---
+{
+	tns#requestMessage: {	
+		tns#merchantID: flowVars.originalPayload.merchant_details.merchant_id,
+		tns#merchantReferenceCode: flowVars.originalPayload.merchant_details.merchantReferenceCode,	
+		tns#billTo: {
+            tns#street1:flowVars.originalPayload.bill_to.street1,
+            tns#city: flowVars.originalPayload.bill_to.city,
+            tns#state: flowVars.originalPayload.bill_to.state,
+            tns#postalCode: flowVars.originalPayload.bill_to.postalCode,
+            tns#country: flowVars.originalPayload.bill_to.country
+          
+       },
+         tns#davService @(run: true):""
+	}
+}]]></dw:set-payload>
+        </dw:transform-message>
+
+
+		<logger message="[SendCC] [ &gt;&gt;&gt; CC Request  [#[message.payloadAs(java.lang.String)]]]" level="INFO" doc:name="CC Request Logger" />
+        
+         <until-successful maxRetries="3" millisBetweenRetries="30000" synchronous="true" doc:name="Until Successful">
+        <ws:consumer config-ref="Web_Service_Consumer" operation="runTransaction" doc:name="CyberSourceWeb Service Consumer"/>
+        </until-successful>
+    
+ 
+          
+    </sub-flow>
+
+
+</mule>

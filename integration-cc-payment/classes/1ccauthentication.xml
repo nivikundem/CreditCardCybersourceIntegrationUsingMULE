@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
+   
+    <flow name="ccAuthenticationFlow">
+        <http:listener config-ref="PaymentService_HTTP_Listener" path="/cc/authentication" allowedMethods="POST" doc:name="HTTP"/>
+          <dw:transform-message doc:name="originalPayload var">                     
+                 
+    <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload]]></dw:set-payload>
+
+				            <dw:set-variable variableName="originalPayload"><![CDATA[%dw 1.0
+%output application/java
+---
+payload]]></dw:set-variable>
+				        </dw:transform-message>
+				        
+				        
+				        
+		 <logger message="#[payload.merchant_details.merchant_id]" level="INFO" doc:name="Logger"/>
+		 <logger message="#[payload.merchant_details.merchantReferenceCode]" level="INFO" doc:name="Logger"/>
+	 	 <logger message="#[payload.bill_to.first_name]" level="INFO" doc:name="Logger"/>
+	 	 <logger message="#[payload.bill_to.last_name]" level="INFO" doc:name="Logger"/>
+	 	 <logger message="#[payload.card.account_number]" level="INFO" doc:name="Logger"/>
+		 
+		 
+		 		        
+        <set-variable variableName="merchantID" value="#[payload.merchant_details.merchant_id]" doc:name="merchantIDVar"/>
+        <set-variable variableName="merchantReferenceCode" value="#[payload.merchant_details.merchantReferenceCode]" doc:name="merchantReferenceCodeVar"/>
+        
+        <set-variable variableName="firstName" value="#[payload.bill_to.first_name]" doc:name="firstNameVar"/>
+        <set-variable variableName="lastName" value="#[payload.bill_to.last_name]" doc:name="lastNameVar"/>
+        <set-variable variableName="accountNumber" value="#[payload.card.account_number]" doc:name="accountNumberVar"/>
+        
+        
+        
+                
+        <flow-ref name="CheckMerchantDetails" doc:name="CheckMerchantDetails"/>
+        <logger message="#[flowVars.isMerchantDetailsExist]" level="INFO" doc:name="Logger"/>
+      
+             
+       
+          <choice doc:name="is there a record?">
+            <when expression="#[flowVars.isMerchantDetailsExist &gt; 0]">
+                <dw:transform-message doc:name="DUPLICATE">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+  "result": "DUPLICATE"
+}]]></dw:set-payload>
+
+
+                </dw:transform-message>
+              
+            </when>
+            <otherwise>
+               <db:insert config-ref="serviceDB" doc:name="InsertAuthenticationDetails">
+                    <db:parameterized-query><![CDATA[insert into cc.ccpayments
+		(merchantID,merchantReferenceCode, firstName,lastName,accountNumber,status) 
+		values (#[flowVars.merchantID],#[flowVars.merchantReferenceCode],#[flowVars.firstName],#[flowVars.lastName],#[flowVars.accountNumber] ,'New')]]></db:parameterized-query>
+
+		</db:insert>	               
+               
+            </otherwise>
+        </choice>
+       
+       
+       
+      
+      
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+        
+        
+        <exception-strategy ref="Global_Exception_Strategy" doc:name="Reference Exception Strategy"/> 
+        
+        
+        
+    </flow>
+    
+        
+    
+</mule>

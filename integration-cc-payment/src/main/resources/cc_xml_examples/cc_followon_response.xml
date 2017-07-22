@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c:replyMessage xmlns:c="urn:schemas-cybersource-com:transaction-data-1.139">
+    <c:merchantReferenceCode>1500706855</c:merchantReferenceCode>
+    <c:requestID>5007068607166962204012</c:requestID>
+    <c:decision>ACCEPT</c:decision>
+    <c:reasonCode>100</c:reasonCode>
+    <c:requestToken>Ahj/7wSTD28JIaHEr/1sEhTFqwYN2DZw1apb/a2LzwClvCEuyPZ0OkuHCOGTSTL0YrlQGIE5MPbwhCDPG7YScAAA6QWs</c:requestToken>
+    <c:purchaseTotals>
+        <c:currency>GBP</c:currency>
+    </c:purchaseTotals>
+    <c:ccCreditReply>
+        <c:reasonCode>100</c:reasonCode>
+        <c:requestDateTime>2017-07-22T07:01:00Z</c:requestDateTime>
+        <c:amount>94.00</c:amount>
+        <c:reconciliationID>1500706855</c:reconciliationID>
+    </c:ccCreditReply>
+</c:replyMessage>

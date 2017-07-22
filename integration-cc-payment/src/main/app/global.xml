@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ws="http://www.mulesoft.org/schema/mule/ws" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
+http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/current/mule-ws.xsd">
+
+
+    <context:property-placeholder location="${mule.env}.properties"/>
+    <http:listener-config name="CreditCard_HTTP_Listener" host="0.0.0.0" port="${http.port}" doc:name="HTTP Listener Configuration" basePath="${http.path}"/>
+    <http:request-config name="PaymentStore_HTTP_Request_Configuration" host="${payment.store.host}" port="${payment.store.port}" basePath="${payment.store.path}" doc:name="HTTP Request Configuration"/>
+    <ws:consumer-config name="Web_Service_Consumer" service="${cybersource.servicename}" port="${cybersource.portname}" serviceAddress="${cybersource.serviceAddress}" wsdlLocation="${cybersource.wsdllocation}" doc:name="Web Service Consumer">
+        <ws:security>
+            <ws:wss-username-token username="${cybersource.username}" password="${cybersource.key}" passwordType="TEXT" addCreated="true"/>
+        </ws:security>
+    </ws:consumer-config>
+   
+</mule>

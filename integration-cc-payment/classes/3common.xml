@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+	xmlns:ftp="http://www.mulesoft.org/schema/mule/ee/ftp" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/ftp http://www.mulesoft.org/schema/mule/ee/ftp/current/mule-ftp-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    
+    
+    
+      <sub-flow name="CheckMerchantDetails">
+        <logger message="#[flowVars.merchantID]" level="INFO" doc:name="Logger"/>
+         <logger message="#[flowVars.merchantReferenceCode]" level="INFO" doc:name="Logger"/>
+
+        <db:select config-ref="serviceDB" doc:name="Database">
+            <db:parameterized-query><![CDATA[SELECT  merchantID
+			FROM cc.ccpayments 
+			where merchantReferenceCode = #[flowVars.merchantReferenceCode] 
+and merchantID=#[flowVars.merchantID]]]></db:parameterized-query>
+
+        </db:select>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+        <logger message="#[payload.size()]" level="INFO" doc:name="Logger"/> 
+
+
+
+
+
+        <choice doc:name="is there a record?">
+            <when expression="#[payload.size() == 0]">
+                <set-variable variableName="isMerchantDetailsExist" value="0" doc:name="isMerchantDetailsExist"/>
+              
+            </when>
+            <otherwise>
+               <set-variable variableName="isMerchantDetailsExist" value="1" doc:name="isMerchantDetailsExist"/>  
+            </otherwise>
+        </choice>
+      
+    </sub-flow>
+    
+
+ 
+</mule>

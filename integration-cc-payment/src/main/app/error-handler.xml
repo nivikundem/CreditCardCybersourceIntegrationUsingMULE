@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+
+
+	 <choice-exception-strategy name="Global_Exception_Strategy">
+        <catch-exception-strategy when="#[exception.causedBy(javax.script.ScriptException)]" doc:name="Custom 400">
+            <message-properties-transformer overwrite="true" doc:name="Message Properties">
+                <add-message-property key="Content-Type" value="application/json"/>
+                <add-message-property key="http.status" value="400"/>
+            </message-properties-transformer>
+            <logger message="[#[message.id]] [#[flow.name]] [400] [#[exception.detailedMessage]] [#[payload]] [ Source Error Flow: #[exception.event.flowConstruct.name] ]" level="INFO" doc:name="Logger"/>
+            <set-payload value="{&quot;status&quot;:400,&quot;code&quot;:&quot;USR&quot;,&quot;message&quot;:&quot;#[(org.mule.util.ExceptionUtils.getRootCauseMessage(exception)).substring(11)]&quot;,&quot;reference_id&quot;:&quot;#[message.id]&quot;}" doc:name="groovy exception"/>
+        </catch-exception-strategy>
+        <catch-exception-strategy when="#[exception.causedBy(org.codehaus.jackson.JsonParseException) || exception.causedBy(org.mule.api.expression.ExpressionRuntimeException)]" doc:name="400 JSON">
+            <message-properties-transformer overwrite="true" doc:name="Message Properties">
+                <add-message-property key="Content-Type" value="application/json"/>
+                <add-message-property key="http.status" value="400"/>
+            </message-properties-transformer>
+            <logger message="[#[message.id]] [#[flow.name]] [400] [#[exception.detailedMessage]] [#[payload]] [ Source Error Flow: #[exception.event.flowConstruct.name] ]" level="INFO" doc:name="Logger"/>
+            <set-payload value="{&quot;status&quot;:400,&quot;code&quot;:&quot;USR&quot;,&quot;message&quot;:&quot;Invalid data types in json request.&quot;,&quot;reference_id&quot;:&quot;#[message.id]&quot;}" doc:name="Set Payload"/>
+        </catch-exception-strategy>
+
+        
+        <catch-exception-strategy when="#[exception.causeMatches('org.mule.api.transformer.TransformerException')]" doc:name="Custom 400 - TransformerException">
+            <message-properties-transformer overwrite="true" doc:name="Message Properties">
+                <add-message-property key="Content-Type" value="application/json"/>
+                <add-message-property key="http.status" value="400"/>
+            </message-properties-transformer>
+            <logger message="Transformer Exception error : #[exception.cause.message] - [ Source Error Flow: #[exception.event.flowConstruct.name] ]" level="INFO" doc:name="Logger"/>
+            <set-payload value="{&quot;status&quot;:400,&quot;code&quot;:&quot;USR&quot;,&quot;message&quot;:&quot;#[(exception.cause.message != null) ? (new java.lang.String(exception.cause.message).replace('\\','').replace('\&quot;','').replace('{','').replace('}','')) : '&quot;']&quot;,&quot;reference_id&quot;:&quot;#[message.id]&quot;} " doc:name="Set Payload"/>
+
+        </catch-exception-strategy>
+        
+        
+        <catch-exception-strategy doc:name="500">
+            <message-properties-transformer overwrite="true" doc:name="Message Properties">
+                <add-message-property key="Content-Type" value="application/json"/>
+                <add-message-property key="http.status" value="500"/>
+            </message-properties-transformer>
+            <logger message="[#[message.id]] [#[flow.name]] [500] [#[exception.detailedMessage]] [#[payload]] [ Source Error Flow: #[exception.event.flowConstruct.name] ]" level="INFO"  doc:name="Logger"/>
+            <object-to-string-transformer doc:name="Object to String"/>
+            <set-payload value="{&quot;status&quot;:500,&quot;code&quot;:&quot;SYS&quot;,&quot;message&quot;:&quot;Internal Server Error: #[(exception.cause.message != null) ? (new java.lang.String(exception.cause.message).replace('\\','').replace('\&quot;','').replace('{','').replace('}','')) : '&quot;']&quot;,&quot;reference_id&quot;:&quot;#[message.id]&quot;} " doc:name="Set Payload"/>
+        </catch-exception-strategy>		
+
+
+	</choice-exception-strategy>
+
+
+</mule>
