@@ -18,7 +18,7 @@ In this project the following end points/operations been implemented.
 - Installment request with Visa
 - Fully approved request
 
-Mule components Dataweave Context property place folders DB connector Object-to-string-transformer Http Consumer Exception Strategies
+Mule components : Dataweave ,Context property place folders, DB connector, Object-to-string-transformer ,Http Consumer ,Exception Strategies
 
 Technologies and tools 
 - J2E MySQL
